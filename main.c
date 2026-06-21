@@ -1,9 +1,7 @@
 #include "monty.h"
 
-extern char *push_arg;
-
 /**
- * main - entry point
+ * main - Monty interpreter entry point
  * @argc: argument count
  * @argv: argument vector
  *
@@ -17,7 +15,6 @@ int main(int argc, char **argv)
 	size_t len = 0;
 	unsigned int line_number = 0;
 	stack_t *stack = NULL;
-	void (*func)(stack_t **, unsigned int);
 
 	if (argc != 2)
 	{
@@ -28,9 +25,7 @@ int main(int argc, char **argv)
 	file = fopen(argv[1], "r");
 	if (!file)
 	{
-		fprintf(stderr,
-			"Error: Can't open file %s\n",
-			argv[1]);
+		fprintf(stderr, "Error: Can't open file %s\n", argv[1]);
 		exit(EXIT_FAILURE);
 	}
 
@@ -39,23 +34,10 @@ int main(int argc, char **argv)
 		line_number++;
 
 		opcode = strtok(line, " \t\n");
-
-		if (opcode == NULL)
+		if (!opcode)
 			continue;
 
-		push_arg = strtok(NULL, " \t\n");
-
-		func = get_op_func(opcode);
-
-		if (func == NULL)
-		{
-			fprintf(stderr,
-				"L%d: unknown instruction %s\n",
-				line_number, opcode);
-			exit(EXIT_FAILURE);
-		}
-
-		func(&stack, line_number);
+		execute(opcode, &stack, line_number);
 	}
 
 	free(line);
