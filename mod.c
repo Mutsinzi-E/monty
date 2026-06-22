@@ -1,12 +1,8 @@
 #include "monty.h"
 
-/**
- * mod - remainder of division of second top by top
- */
 void mod(stack_t **stack, unsigned int line_number)
 {
-    stack_t *tmp;
-    int result;
+    stack_t *temp;
 
     if (!stack || !*stack || !(*stack)->next)
     {
@@ -20,13 +16,12 @@ void mod(stack_t **stack, unsigned int line_number)
         exit(EXIT_FAILURE);
     }
 
-    tmp = *stack;
-    result = tmp->next->n % tmp->n;
+    temp = *stack;
 
-    tmp->next->n = result;
+    temp->next->n = temp->next->n % temp->n;
 
-    *stack = tmp->next;
+    *stack = temp->next;
     (*stack)->prev = NULL;
 
-    free(tmp);
+    free(temp);
 }

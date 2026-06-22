@@ -4,29 +4,23 @@
  * add - adds the top two elements of the stack
  * @stack: pointer to stack
  * @line_number: line number of instruction
- *
- * Return: void
  */
 void add(stack_t **stack, unsigned int line_number)
 {
-	stack_t *first;
-	stack_t *second;
-	int sum;
+    stack_t *top;
 
-	if (!stack || !*stack || !(*stack)->next)
-	{
-		fprintf(stderr, "L%d: can't add, stack too short\n", line_number);
-		exit(EXIT_FAILURE);
-	}
+    if (!stack || !*stack || !(*stack)->next)
+    {
+        fprintf(stderr, "L%u: can't add, stack too short\n", line_number);
+        exit(EXIT_FAILURE);
+    }
 
-	first = *stack;
-	second = first->next;
+    top = *stack;
 
-	sum = first->n + second->n;
+    (*stack)->next->n = (*stack)->next->n + top->n;
 
-	second->n = sum;
-	*stack = second;
-	second->prev = NULL;
+    *stack = top->next;
+    (*stack)->prev = NULL;
 
-	free(first);
+    free(top);
 }

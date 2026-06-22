@@ -1,28 +1,21 @@
 #include "monty.h"
 
-/**
- * mul - multiplies the second top element by the top element
- * @stack: pointer to stack
- * @line_number: line number of instruction
- */
 void mul(stack_t **stack, unsigned int line_number)
 {
-	stack_t *top, *second;
+    stack_t *temp;
 
-	if (!stack || !*stack || !(*stack)->next)
-	{
-		fprintf(stderr, "L%u: can't mul, stack too short\n",
-			line_number);
-		exit(EXIT_FAILURE);
-	}
+    if (!stack || !*stack || !(*stack)->next)
+    {
+        fprintf(stderr, "L%u: can't mul, stack too short\n", line_number);
+        exit(EXIT_FAILURE);
+    }
 
-	top = *stack;
-	second = top->next;
+    temp = *stack;
 
-	second->n *= top->n;
+    temp->next->n = temp->next->n * temp->n;
 
-	*stack = second;
-	second->prev = NULL;
+    *stack = temp->next;
+    (*stack)->prev = NULL;
 
-	free(top);
+    free(temp);
 }

@@ -16,15 +16,12 @@ void rotr(stack_t **stack, unsigned int line_number)
 
     last = *stack;
 
-    /* move to last node */
     while (last->next)
         last = last->next;
 
-    /* detach last */
     if (last->prev)
         last->prev->next = NULL;
 
-    /* move last to top */
     last->next = *stack;
     last->prev = NULL;
     (*stack)->prev = last;
