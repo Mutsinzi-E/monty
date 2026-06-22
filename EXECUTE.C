@@ -1,21 +1,12 @@
 #include "monty.h"
 
-/**
- * execute - runs the correct opcode function
- * @opcode: instruction name
- * @stack: pointer to stack
- * @line_number: current line number
- */
 void execute(char *opcode, stack_t **stack, unsigned int line_number)
 {
     void (*func)(stack_t **, unsigned int);
 
-    if (opcode == NULL)
-        return;
-
     func = get_op_func(opcode);
 
-    if (func == NULL)
+    if (!func)
     {
         fprintf(stderr, "L%u: unknown instruction %s\n", line_number, opcode);
         exit(EXIT_FAILURE);

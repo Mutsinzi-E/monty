@@ -1,33 +1,30 @@
 #include "monty.h"
-#include <string.h>
 
 void (*get_op_func(char *opcode))(stack_t **, unsigned int)
 {
-	int i;
+    instruction_t ops[] = {
+        {"push", push},
+        {"pall", pall},
+        {"pop", pop},
+        {"pint", pint},
+        {"add", add},
+        {"sub", sub},
+        {"div", divi},   /* FIXED */
+        {"mul", mul},
+        {"mod", mod},
+        {"nop", nop},     /* FIXED */
+        {"pstr", pstr},
+        {NULL, NULL}
+    };
 
-	instruction_t ops[] = {
-		{"push", push},
-		{"pall", pall},
-		{"pint", pint},
-		{"pop", pop},
-		{"swap", swap},
-		{"add", add},
-		{"sub", sub},
-		{"div", div_op},
-		{"mul", mul},
-		{"nop", nop},
-		{"pchar", pchar},
-		{NULL, NULL}
-	};
+    int i = 0;
 
-	if (!opcode)
-		return (NULL);
+    while (ops[i].opcode)
+    {
+        if (strcmp(ops[i].opcode, opcode) == 0)
+            return ops[i].f;
+        i++;
+    }
 
-	for (i = 0; ops[i].opcode != NULL; i++)
-	{
-		if (strcmp(opcode, ops[i].opcode) == 0)
-			return (ops[i].f);
-	}
-
-	return (NULL);
+    return NULL;
 }
